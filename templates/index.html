@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ai2agi — Ai70000, Ltd.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/main.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <div class="brand-text">
+        <span class="brand-name">ai2agi</span>
+        <span class="brand-sub">Ai70000, Ltd.</span>
+      </div>
+    </div>
+    <div class="header-formula">
+      AGI ≈ f(G<sub>e</sub>, R<sub>e</sub>, ai<sub>LLM</sub>, DTB, CV<sub>Adapt</sub>)
+    </div>
+    <div class="header-actions">
+      <div class="status-indicator" id="statusDot">
+        <span class="dot"></span><span class="status-text">READY</span>
+      </div>
+      <button class="btn-reset" id="resetBtn" title="Reset session">↺ RESET</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+<main class="main-layout">
+
+  <!-- ─── CHAT PANEL ─── -->
+  <section class="chat-panel">
+
+    <div class="chat-window" id="chatWindow">
+      <!-- Welcome message -->
+      <div class="msg-block system-block">
+        <div class="msg-label">SYSTEM</div>
+        <div class="msg-content">
+          <p class="welcome-title">AGI Inference System — POC v2.0</p>
+          <p>Five-component architecture running. Foundation initialized from NIV Scripture corpus — 66 books, 15,914 passages. Submit any query.</p>
+          <div class="component-pills">
+            <span class="pill">G_enhanced</span>
+            <span class="pill">R_enhanced</span>
+            <span class="pill pill-accent">ai_LLM ◈ Claude</span>
+            <span class="pill">DTB</span>
+            <span class="pill">CV_Adapt → T_AGI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="input-bar">
+      <textarea
+        id="taskInput"
+        class="task-input"
+        placeholder="Enter query — any domain..."
+        rows="1"
+        maxlength="2000"
+      ></textarea>
+      <button class="btn-submit" id="submitBtn">
+        <span class="btn-label">RUN</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── DEV PANEL ─── -->
+  <aside class="dev-panel" id="devPanel">
+    <div class="dev-header">
+      <span class="dev-title">PIPELINE — DEVELOPER VIEW</span>
+      <button class="dev-toggle" id="devToggle" title="Toggle panel">◧</button>
+    </div>
+
+    <!-- Session metrics -->
+    <div class="dev-section">
+      <div class="dev-section-label">SESSION STATE</div>
+      <div class="metric-grid" id="sessionMetrics">
+        <div class="metric"><span class="metric-label">QUERIES</span><span class="metric-val" id="mQueries">0</span></div>
+        <div class="metric"><span class="metric-label">TOPICS</span><span class="metric-val" id="mTopics">0</span></div>
+        <div class="metric"><span class="metric-label">DOPAMINE</span><span class="metric-val" id="mDopamine">—</span></div>
+        <div class="metric"><span class="metric-label">CORTISOL</span><span class="metric-val" id="mCortisol">—</span></div>
+      </div>
+    </div>
+
+    <!-- Pipeline schematic -->
+    <div class="dev-section">
+      <div class="dev-section-label">COMPONENT SCHEMATIC</div>
+      <div class="schematic" id="schematic">
+        <div class="sch-step" id="sch0">
+          <div class="sch-num">0</div>
+          <div class="sch-info">
+            <div class="sch-name">Foundation Initializer</div>
+            <div class="sch-detail" id="sch0-detail">NIV · 66 books · 15,914 passages</div>
+          </div>
+          <div class="sch-status" id="sch0-status">●</div>
+        </div>
+        <div class="sch-connector">↓</div>
+        <div class="sch-step" id="sch1">
+          <div class="sch-num">1</div>
+          <div class="sch-info">
+            <div class="sch-name">G_enhanced → T_G</div>
+            <div class="sch-detail" id="sch1-detail">(100,32) · e_Generalization</div>
+          </div>
+          <div class="sch-status" id="sch1-status">●</div>
+        </div>
+        <div class="sch-connector">↓</div>
+        <div class="sch-step" id="sch2">
+          <div class="sch-num">2</div>
+          <div class="sch-info">
+            <div class="sch-name">R_enhanced → T_R</div>
+            <div class="sch-detail" id="sch2-detail">(100,64) · e_Reasoning</div>
+          </div>
+          <div class="sch-status" id="sch2-status">●</div>
+        </div>
+        <div class="sch-connector">↓</div>
+        <div class="sch-step" id="sch3">
+          <div class="sch-num">3</div>
+          <div class="sch-info">
+            <div class="sch-name">ai_LLM → T_LLM</div>
+            <div class="sch-detail" id="sch3-detail">(100,32) · Claude API</div>
+          </div>
+          <div class="sch-status" id="sch3-status">●</div>
+        </div>
+        <div class="sch-connector">↓</div>
+        <div class="sch-step" id="sch4">
+          <div class="sch-num">4</div>
+          <div class="sch-info">
+            <div class="sch-name">DTB → T_DTB</div>
+            <div class="sch-detail" id="sch4-detail">(100,24) · Digital Twin Brain</div>
+          </div>
+          <div class="sch-status" id="sch4-status">●</div>
+        </div>
+        <div class="sch-connector">↓</div>
+        <div class="sch-step sch-step-agi" id="sch5">
+          <div class="sch-num">5</div>
+          <div class="sch-info">
+            <div class="sch-name">CV_Adapt → T_AGI</div>
+            <div class="sch-detail" id="sch5-detail">(1,1024) · AGI-DNA</div>
+          </div>
+          <div class="sch-status" id="sch5-status">◈</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Component scores -->
+    <div class="dev-section">
+      <div class="dev-section-label">COMPONENT SCORES</div>
+      <div class="score-bars" id="scoreBars">
+        <div class="score-row">
+          <span class="score-label">G — Generalization</span>
+          <div class="score-bar-wrap"><div class="score-bar" id="bar-G"></div></div>
+          <span class="score-val" id="val-G">—</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">R — Reasoning</span>
+          <div class="score-bar-wrap"><div class="score-bar" id="bar-R"></div></div>
+          <span class="score-val" id="val-R">—</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">L — Linguistic</span>
+          <div class="score-bar-wrap"><div class="score-bar" id="bar-L"></div></div>
+          <span class="score-val" id="val-L">—</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">DTB — Neuronal</span>
+          <div class="score-bar-wrap"><div class="score-bar" id="bar-DTB"></div></div>
+          <span class="score-val" id="val-DTB">—</span>
+        </div>
+        <div class="score-row score-row-mq">
+          <span class="score-label">MQ — Moral Quotient</span>
+          <div class="score-bar-wrap"><div class="score-bar score-bar-mq" id="bar-MQ"></div></div>
+          <span class="score-val" id="val-MQ">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline log -->
+    <div class="dev-section dev-section-grow">
+      <div class="dev-section-label">PIPELINE LOG</div>
+      <div class="pipeline-log" id="pipelineLog">
+        <div class="log-idle">Awaiting query...</div>
+      </div>
+    </div>
+
+  </aside>
+
+</main>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="site-footer">
+  <span>ai2agi · Ai70000, Ltd. · POC v2.0 · © 2026 — Proprietary &amp; Confidential</span>
+  <span>AGI ≈ f(G<sub>e</sub>, R<sub>e</sub>, ai<sub>LLM</sub>, DTB, CV<sub>Adapt</sub>)</span>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
