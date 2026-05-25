@@ -5,8 +5,8 @@ ai2agi — Flask Web Application
 AGI ≈ f(G_enhanced, R_enhanced, ai_LLM, DTB, CV_Adapt)
 
 Author  : Alex Osterneck, CLA, MSCS, MSIT
-Org     : ai70000, Ltd.
-Version : 2.0 — May 2026
+Org     : Ai70000, Ltd.
+Version : 1.1 — May 2026
 ════════════════════════════════════════════════════════════════
 """
 
@@ -26,13 +26,14 @@ app.config["SESSION_FILE_DIR"] = os.path.join(BASE_DIR, ".flask_session")
 os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
 Session(app)
 
+QUERY_LIMIT = 10  # free queries per session
+
 # ── Lazy import — only loads on first inference request ───────────────────────
 _agi_module = None
 
 def get_agi():
     global _agi_module
     if _agi_module is None:
-        # Block tensorflow from being imported by any module in the chain
         sys.modules['tensorflow'] = None
         sys.modules['tf'] = None
         import agi_inference as m
@@ -52,6 +53,15 @@ def infer():
         return jsonify({"error": "No task provided."}), 400
 
     task = data["task"].strip()
+
+    # ── Rate limit per session ────────────────────────────────────────────────
+    query_count = session.get("query_count", 0)
+    if query_count >= QUERY_LIMIT:
+        return jsonify({
+            "error": f"Query limit reached ({QUERY_LIMIT} queries per session). "
+                     "Contact Ai70000, Ltd. for extended access: ai2agi.pro"
+        }), 429
+    session["query_count"] = query_count + 1
 
     try:
         m = get_agi()
