@@ -357,6 +357,12 @@ body {
   background: var(--accent-dim);
 }
 
+.pill-dominant {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: var(--amber-dim);
+}
+
 /* Processing indicator */
 .processing-block .msg-content {
   display: flex;
