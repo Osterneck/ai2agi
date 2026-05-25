@@ -246,6 +246,26 @@ function updateDevPanel(d) {
   [0,1,2,3,4,5].forEach(i => {
     document.getElementById(`sch${i}`).classList.add("active");
   });
+
+  // ── Highlight dominant non-LLM component pill ──────────────────────────
+  const candidates = {
+    "pill-G":   cs.generalization ?? 0,
+    "pill-R":   cs.reasoning ?? 0,
+    "pill-DTB": cs.neuronal_dtb ?? 0,
+    "pill-MQ":  d.mq_score ?? 0,
+  };
+  // Reset all pills to default
+  ["pill-G","pill-R","pill-DTB","pill-MQ","pill-LLM"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove("pill-accent", "pill-dominant"); }
+  });
+  // ai_LLM always accent
+  const llmPill = document.getElementById("pill-LLM");
+  if (llmPill) llmPill.classList.add("pill-accent");
+  // Find and highlight the dominant non-LLM component
+  const dominantId = Object.entries(candidates).reduce((a, b) => b[1] > a[1] ? b : a)[0];
+  const dominantEl = document.getElementById(dominantId);
+  if (dominantEl) dominantEl.classList.add("pill-dominant");
 }
 
 function setBar(key, val) {
@@ -331,11 +351,12 @@ function appendWelcome() {
       <p class="welcome-title">AGI Inference System — POC v2.0</p>
       <p>Five-component architecture running. Foundation initialized from NIV Scripture corpus — 66 books, 15,914 passages. Submit any query.</p>
       <div class="component-pills">
-        <span class="pill">G_enhanced</span>
-        <span class="pill">R_enhanced</span>
-        <span class="pill pill-accent">ai_LLM ◈ Claude</span>
-        <span class="pill">DTB</span>
-        <span class="pill">CV_Adapt → T_AGI</span>
+        <span class="pill" id="pill-G">G_enhanced</span>
+        <span class="pill" id="pill-R">R_enhanced</span>
+        <span class="pill pill-accent" id="pill-LLM">ai_LLM ◈ Claude</span>
+        <span class="pill" id="pill-DTB">DTB</span>
+        <span class="pill" id="pill-MQ">MQ ◈ NIV</span>
+        <span class="pill" id="pill-CV">CV_Adapt → T_AGI</span>
       </div>
     </div>
   `;
