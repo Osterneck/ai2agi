@@ -2,7 +2,7 @@
 
 **AGI ≈ f(G_enhanced, R_enhanced, ai_LLM, DTB, CV_Adapt)**
 
-Ai70000, Ltd. | POC v2.0 | May 2026  
+Ai70000, Ltd. | POC v2.0 | May 2026 | revision from 2023 research, and 2025 project-paper
 Author: Alex Osterneck, CLA, MSCS, MSIT  
 **CONFIDENTIAL — PROPRIETARY IP — ALL RIGHTS RESERVED**
 
@@ -10,10 +10,10 @@ Author: Alex Osterneck, CLA, MSCS, MSIT
 
 ## Overview
 
-ai2agi is a proof-of-concept implementation of a five-component AGI architecture
-grounded in NIV Scripture (66 books, 15,914 passages) as its inception layer.
+ai2agi is a proof-of-concept implementation of the five-component AGI architecture
+insantiated via the NIV Scripture (66 books, 15,914 passages) as its inception layer.
 
-The architecture decomposes AGI into five independent, architecturally-constrained
+The architecture differentiates AGI into five independent, architecturally-constrained
 components, each producing a typed tensor that contracts with CV_Adapt:
 
 | Component | Role | Output |
@@ -67,14 +67,14 @@ Open http://localhost:5000
 
 ## Novel Inventions
 
-13 novel proprietary inventions documented in `ai2agi_component_API.pdf` (Section 14.2).
-USPTO provisional filing in process.
+14 novel proprietary inventions documented in `ai2agi_component_API.pdf` (Section 14.2).
+USPTO patent-pending.
 
 ---
 
 ## IP Notice
 
-This repository and all contents are the exclusive proprietary IP of Alex Osterneck
+This repository and all contents are the exclusive proprietary IP of Alex Osterneck, CLA, MSCS, MSIT,
 and Ai70000, Ltd. No license is granted. All rights reserved. Unauthorized use,
 reproduction, or distribution is prohibited.
 
