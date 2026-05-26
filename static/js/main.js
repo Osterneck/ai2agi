@@ -1,3 +1,4 @@
+
 /* ═══════════════════════════════════════════════════════════════
    ai2agi — Main Frontend Script
    Ai70000, Ltd. | POC v2.0
@@ -354,7 +355,7 @@ function appendWelcome() {
       <div class="component-pills">
         <span class="pill" id="pill-G">G_enhanced</span>
         <span class="pill" id="pill-R">R_enhanced</span>
-        <span class="pill pill-accent" id="pill-LLM">ai_LLM ◈ Claude</span>
+        <span class="pill" id="pill-LLM">ai_LLM ◈ Claude</span>
         <span class="pill" id="pill-DTB">DTB</span>
         <span class="pill" id="pill-MQ">MQ ◈ NIV</span>
         <span class="pill" id="pill-CV">CV_Adapt → T_AGI</span>
