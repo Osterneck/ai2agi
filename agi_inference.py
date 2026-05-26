@@ -308,14 +308,10 @@ def run_ai_llm(task_text: str):
     """
     Component 3: ai_LLM — REAL Claude API implementation.
     API Spec v2.0 §5 — LLM-agnostic slot, Claude as implementing model.
-
-    Calls the Anthropic Claude API to produce a direct answer,
-    then encodes semantic signals from that answer into T_LLM (N_UNITS, 32).
-
-    API key: set ANTHROPIC_API_KEY in Colab Secrets (not hardcoded).
+    Uses requests library for reliable Colab network access.
+    API key: set ANTHROPIC_API_KEY in Colab Secrets.
     """
-    import urllib.request
-    import json
+    import requests
     import os
 
     api_key = None
@@ -349,28 +345,37 @@ def run_ai_llm(task_text: str):
                 "Be concise but complete. Maximum 300 words."
             )
 
-            payload = json.dumps({
-                "model": "claude-sonnet-4-6",
-                "max_tokens": 1024,
-                "system": system_prompt,
-                "messages": [{"role": "user", "content": task_text}]
-            }).encode("utf-8")
-
-            req = urllib.request.Request(
+            response = requests.post(
                 "https://api.anthropic.com/v1/messages",
-                data=payload,
                 headers={
                     "Content-Type":      "application/json",
                     "x-api-key":         api_key,
                     "anthropic-version": "2023-06-01",
                 },
-                method="POST"
+                json={
+                    "model":      "claude-sonnet-4-6",
+                    "max_tokens": 1024,
+                    "system":     system_prompt,
+                    "messages":   [
+                        *[
+                            msg for h in SESSION["history"][-5:]
+                            for msg in [
+                                {"role": "user",      "content": h["task"]},
+                                {"role": "assistant", "content": h["answer"]},
+                            ]
+                            if h.get("answer")
+                        ],
+                        {"role": "user", "content": task_text}
+                    ]
+                },
+                timeout=30
             )
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data       = json.loads(resp.read().decode("utf-8"))
-                llm_answer = data["content"][0]["text"].strip()
+            response.raise_for_status()
+            data       = response.json()
+            llm_answer = data["content"][0]["text"].strip()
 
-            a = llm_answer.lower()
+            # Encode real semantic signals from the answer
+            a               = llm_answer.lower()
             word_count      = len(llm_answer.split())
             llm_confidence  = float(np.clip(word_count / 150.0, 0.3, 1.0))
             ethical_score   = 1.0 if any(w in a for w in [
@@ -388,8 +393,11 @@ def run_ai_llm(task_text: str):
             reasoning_chain = float(np.clip(0.3 + chain_markers * 0.1, 0.3, 1.0))
             SESSION["llm_answer"] = llm_answer
 
+        except requests.exceptions.HTTPError as e:
+            llm_answer = f"[Claude API HTTP error: {e.response.status_code} — {e.response.text[:120]}]"
+            SESSION["llm_answer"] = ""
         except Exception as e:
-            llm_answer = f"[Claude API error: {str(e)[:80]}]"
+            llm_answer = f"[Claude API error: {type(e).__name__}: {str(e)[:120]}]"
             SESSION["llm_answer"] = ""
     else:
         llm_answer = "[No API key — set ANTHROPIC_API_KEY in Colab Secrets]"
