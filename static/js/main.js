@@ -253,6 +253,7 @@ function updateDevPanel(d) {
     "pill-R":   cs.reasoning ?? 0,
     "pill-DTB": cs.neuronal_dtb ?? 0,
     "pill-MQ":  d.mq_score ?? 0,
+    "pill-CV":  d.consistency ?? 0,
   };
   // Reset all pills to default
   ["pill-G","pill-R","pill-DTB","pill-MQ","pill-LLM"].forEach(id => {
