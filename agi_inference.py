@@ -840,7 +840,7 @@ def decision_layer(T_AGI_output: dict, g_summary: dict, task_text: str) -> dict:
 
     # ── Routing weights summary ───────────────────────────────────────────
     route_summary = {
-        k: round(float(v.mean()), 3)
+        k: round(float(v.mean()) if hasattr(v, "mean") else float(v), 3)
         for k, v in routing.items()
     }
 
