@@ -531,28 +531,15 @@ def run_cv_adapt(T_G, T_R, T_LLM, T_DTB):
         dropout         = 0.0,   # inference mode
         memory_capacity = 4,
     )
-    model = build_cv_adapt(cfg)
-    model.eval()
-
-    def make_stream(stream, tensor):
-        # Add batch and seq dims: (N_UNITS, features) → (1, SEQ_LEN, features)
-        # Pool N_UNITS into SEQ_LEN tokens
-        step = max(1, N_UNITS // SEQ_LEN)
-        pooled = tensor[:SEQ_LEN * step].reshape(SEQ_LEN, step, -1).mean(dim=1)
-        return StreamTensor(stream=stream, data=pooled.unsqueeze(0))
-
-    streams = {
-        Stream.E_GEN:    make_stream(Stream.E_GEN,    T_G),
-        Stream.E_REASON: make_stream(Stream.E_REASON,  T_R),
-        Stream.AI_LLM:   make_stream(Stream.AI_LLM,   T_LLM),
-        Stream.DTB:      make_stream(Stream.DTB,       T_DTB),
-    }
-
     # POC: weighted fusion replacing full neural CV_Adapt (Phase 2)
     import numpy as _np
 
     def _to_np(t):
-        return t.detach().cpu().numpy() if isinstance(t, torch.Tensor) else _np.array(t)
+        if isinstance(t, torch.Tensor):
+            arr = t.detach().cpu().numpy()
+        else:
+            arr = _np.array(t)
+        return _np.atleast_2d(arr).astype(_np.float32)
 
     g_np   = _to_np(T_G).mean(axis=0)
     r_np   = _to_np(T_R).mean(axis=0)
