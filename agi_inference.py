@@ -1,4 +1,3 @@
-
 """
 agi_inference.py
 ════════════════════════════════════════════════════════════════
@@ -393,6 +392,8 @@ def run_ai_llm(task_text: str):
                 if w in a)
             reasoning_chain = float(np.clip(0.3 + chain_markers * 0.1, 0.3, 1.0))
             SESSION["llm_answer"] = llm_answer
+            if SESSION["history"]:
+                SESSION["history"][-1]["answer"] = llm_answer
 
         except requests.exceptions.HTTPError as e:
             llm_answer = f"[Claude API HTTP error: {e.response.status_code} — {e.response.text[:120]}]"
@@ -517,8 +518,8 @@ def run_cv_adapt(T_G, T_R, T_LLM, T_DTB):
     Receives four streams, produces T_AGI (AGI-DNA).
     """
     cfg = CV_AdaptConfig(
-        d_model    = 128,    # reduced for CPU inference speed
-        n_heads    = 4,
+        d_model    = 32,     # minimal for CPU inference — memory constrained
+        n_heads    = 2,
         output_dim = 1024,
         stream_dims = {
             "E_GEN":    32,
@@ -526,9 +527,9 @@ def run_cv_adapt(T_G, T_R, T_LLM, T_DTB):
             "AI_LLM":   32,
             "DTB":      24,
         },
-        n_refine_steps  = 2,
+        n_refine_steps  = 1,
         dropout         = 0.0,   # inference mode
-        memory_capacity = 8,
+        memory_capacity = 4,
     )
     model = build_cv_adapt(cfg)
     model.eval()
