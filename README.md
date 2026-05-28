@@ -1,15 +1,22 @@
 # ai2agi
 
-** PROTOTYPE PROOF-OF-CONCEPT: https:\\ai2agi.pro
 
-** DUE TO DEMAND WE ARE ONLY RELEASIN THE foundation_initializer.py AND ONLY FOR TRANSPARANCY SO THE MORAL CODE IS VIEWABLE 
+** prototype proof-of-concept:              https:\\ai2agi.pro
 
-** WE WILL RELEASE THE REST OF THE FILES SOON THANK YOU.
+
+** DUE TO DEMAND WE ARE ONLY RELEASING foundation_initializer.py FOR TRANSPARANCY SO MORAL CODE IS VIEWABLE 
+
+
+** WE'LL RELEASE THE REST OF THE FILES SOON THANK YOU.
+
+
 
 **AGI ≈ f(G_enhanced, R_enhanced, ai_LLM, DTB, CV_Adapt)**
 
+
 Ai70000, Ltd. | POC v2.0 | May 2026 | revision from 2023 research, and 2025 project-paper
 Author: Alex Osterneck, CLA, MSCS, MSIT  
+
 **CONFIDENTIAL — PROPRIETARY IP — ALL RIGHTS RESERVED**
 
 ---
