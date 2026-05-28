@@ -1,7 +1,7 @@
 # ai2agi
 
 
-** prototype proof-of-concept:              "   https:\\ai2agi.pro   "
+** prototype proof-of-concept:          https://ai2agi.pro
 
 
 ** DUE TO DEMAND WE ARE ONLY RELEASING foundation_initializer.py FOR TRANSPARANCY SO MORAL CODE IS VIEWABLE 
